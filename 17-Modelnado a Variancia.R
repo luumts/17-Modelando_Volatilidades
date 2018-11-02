@@ -20,16 +20,16 @@ BITCOIN <- na.omit(read_excel("C:/Econometria/Bitcoin.xls"))
 Bitcoin <-  ts(log(BITCOIN$Close), start = 2014, frequency = 365)
 
 
-#Se não for estacionária, diferenciar a série
+#Se nÃ£o for estacionÃ¡ria, diferenciar a sÃ©rie
 
 IntOrdem1 <- diff(log(BITCOIN$Close))
 IntegradaOrdem1 <- ts(IntOrdem1, start = 2014, frequency = 365)
 
-plot(IntegradaOrdem1, type="l", main="Primeira Diferança dos Logs do Bitcoin - LogReturn", ylab="Log Preço", xlab="Data", col="Blue")
+plot(IntegradaOrdem1, type="l", main="Primeira DiferanÃ§a dos Logs do Bitcoin - LogReturn", ylab="Log PreÃ§o", xlab="Data", col="Blue")
 grid(col = "black", lty = "dotted")
 
 
-#Estimando Regressões e Tabelando Resultados
+#Estimando RegressÃµes e Tabelando Resultados
 est1 <- data.frame()
 for (i in 1:21) {                 #Loop para os AR: ARIMA(i,0,0)
   est1[i,1] <- paste("AR",i)      #Coluna com os nomes do Modelo
@@ -55,17 +55,17 @@ colnames(Resultados) <- c("Modelo","AIC","BIC")
 #            "AR11","AR12","AR13","AR14","AR15",
 #            "AR16","AR17","AR18","AR19","AR20","AR21")   #cria coluna com nome dos modelos
 #
-#Resultados <- data.frame(Modelo, AIC, BIC)  #Junta as três colunas acima num único resultado
+#Resultados <- data.frame(Modelo, AIC, BIC)  #Junta as trÃªs colunas acima num Ãºnico resultado
 #View(Resultados)
 
-#todo código acima pode ser resumido no código abaixo
+#todo cÃ³digo acima pode ser resumido no cÃ³digo abaixo
 
 
 #Efetuar teste ARCH-LM para o melhor modelo
 
 arch.test(AR1)
 
-#Modelando a Variância
+#Modelando a VariÃ¢ncia
 
 residuos <- AR1$residuals
 plot(residuos, type="o", main="Residuos do AR1")
@@ -73,10 +73,10 @@ grid(col = "black", lty = "dotted")
 
 #FAC  e FACP  dos Residuos
 
-acf(residuos,lend=2, lwd=5,col="darkblue",main= "Função Autocorrelação - FAC")              #Melhorando aspecto da FAC
+acf(residuos,lend=2, lwd=5,col="darkblue",main= "FunÃ§Ã£o AutocorrelaÃ§Ã£o - FAC")              #Melhorando aspecto da FAC
 axis(1,tck = 1, col = "lightgrey", lty = "dotted")
 
-pacf(residuos,lend=60, lwd=5,col="darkblue",main= "Função Autocorrelação Parcial - FACP")   #Melhorando aspecto da PAC
+pacf(residuos,lend=60, lwd=5,col="darkblue",main= "FunÃ§Ã£o AutocorrelaÃ§Ã£o Parcial - FACP")   #Melhorando aspecto da PAC
 axis(1,tck = 1, col = "lightgrey", lty = "dotted")
 
 
@@ -134,16 +134,16 @@ Modelos_Garch <- c("GARCH202", "GARCH201","GARCH1902","GARCH182","GARCH181","GAR
                   "GARCH132","GARCH131","GARCH122","GARCH121","GARCH112","GARCH111",
                   "GARCH102","GARCH101","GARCH92","GARCH91","GARCH82","GARCH81","GARCH72","GARCH71",
                   "GARCH61","GARCH52","GARCH51","GARCH41",
-                  "GARCH22","GARCH21","GARCH12","GARCH11")                                            #cria coluna com nome dos modelos
+                  "GARCH22","GARCH21","GARCH12","GARCH11")                   #cria coluna com nome dos modelos
 
-Resultados_garch <- data.frame(Modelos_Garch, AIC_Garch)  #Junta as três colunas acima num único resultado
+Resultados_garch <- data.frame(Modelos_Garch, AIC_Garch)  #Junta as trÃªs colunas acima num Ãºnico resultado
 View(Resultados_garch)
 
 previsao1 <- predict(GARCH03,IntegradaOrdem1)
 
-plot(previsao1,type="o", main="Volatilidade do Bitcoin", ylab="Preço", xlab="Data", col="Blue")
+plot(previsao1,type="o", main="Volatilidade do Bitcoin", ylab="PreÃ§o", xlab="Data", col="Blue")
 grid(col = "black", lty = "dotted")
      
 previsao2 <- predict(GARCH71,IntegradaOrdem1,15)
-plot(previsao2,type="o", main="Volatilidade do Bitcoin", ylab="Preço", xlab="Data", col="Blue")
+plot(previsao2,type="o", main="Volatilidade do Bitcoin", ylab="PreÃ§o", xlab="Data", col="Blue")
 grid(col = "black", lty = "dotted")
